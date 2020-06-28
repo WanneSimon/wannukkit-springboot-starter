@@ -47,13 +47,15 @@ public class NukkitSpringCenter implements CommandLineRunner{
 		};
 		
 		Thread t = new Thread(nukkitTask);
-		log.info("Running nukkit server.");
+		log.info("Starting nukkit server.");
 		t.start();
-//		t.join();
+		// 非 web 应用，需要等待启动 nukkit 并阻塞当前线程
+		// normal application needs to block current thread.
+//		t.join(); 
 	}
 	
 	public void stopNukkit() {
-		log.info("Shut down nukkit server.");
+		log.info("Shutting down nukkit server.");
 		Server.getInstance().shutdown();
 	}
 	
