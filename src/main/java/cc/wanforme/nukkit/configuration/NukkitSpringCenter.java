@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 
 import cc.wanforme.nukkit.NukkitApplicationLauncher;
-import cc.wanforme.nukkit.started.NukkitStartedHandler;
+import cc.wanforme.nukkit.configuration.started.NukkitStartedHandler;
 import cn.nukkit.Nukkit;
 import cn.nukkit.Server;
 

@@ -1,4 +1,4 @@
-package cc.wanforme.nukkit.started;
+package cc.wanforme.nukkit.configuration.started;
 
 
 import java.util.concurrent.ExecutionException;
