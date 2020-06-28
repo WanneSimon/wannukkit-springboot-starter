@@ -65,7 +65,6 @@ public class UnpackedPluginLoader extends PMPluginLoader{
         } catch (ClassNotFoundException e) {
             throw new PluginException("Couldn't load plugin " + description.getName() + ": main class not found");
         }
-//		return super.loadPlugin(file);
 	}
 	
 	/** 读取文件下的插件配置信息，传入插件根路径，其下要有 nukkit.yml 或 plugin.yml 配置信息文件<br>
@@ -78,26 +77,6 @@ public class UnpackedPluginLoader extends PMPluginLoader{
 			return null;
 		}
 		
-//		String[] fs = baseDir.list(new FilenameFilter() {
-//			@Override
-//			public boolean accept(File dir, String name) {
-//				if("nukkit.yml".equals(name) || "plugin.yml".equals(name)) {
-//					return true;
-//				}
-//				return false;
-//			}
-//		});
-//		if(fs==null || fs.length==0) {
-//			return null;
-//		}
-//		// 根据字符串排序，nukkit.yml会在plugin.yml前面
-//		try (FileInputStream fis = new FileInputStream(new File(fs[0]))){
-//			return new PluginDescription(Utils.readFile(fis));
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-
 		File file = new File(baseDir.getPath() + "/nukkit.yml");
 		if( !file.exists() ) {
 			file = new File(baseDir.getPath() + "/plugin.yml");

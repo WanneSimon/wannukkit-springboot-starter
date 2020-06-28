@@ -38,7 +38,7 @@ public class NukkitSpringCenter implements CommandLineRunner{
 		
 		if(properties.isEnable()) {
 			if(properties.isStartNukkit()) {
-				runNukkit(args);
+				this.runNukkit(args);
 				nukkitStartedHandler.config();
 			}
 		}
@@ -47,12 +47,12 @@ public class NukkitSpringCenter implements CommandLineRunner{
 	public void runNukkit(String... args) {
 		Runnable nukkitTask = new Runnable() {
 			public void run() {
+				log.info("Starting nukkit server.");
 				Nukkit.main(args);
 			}
 		};
 		
 		Thread t = new Thread(nukkitTask);
-		log.info("Starting nukkit server.");
 		t.start();
 		// 非 web 应用，需要等待启动 nukkit 并阻塞当前线程
 		// normal application needs to block current thread.
