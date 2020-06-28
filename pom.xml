@@ -66,6 +66,18 @@
         	<artifactId>spring-boot-starter-web</artifactId>
  		</dependency>
 
+ 		<!-- 引入测试 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+		
+		<!-- live load. 热部署[1] -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>cn.nukkit</groupId>
 			<artifactId>nukkit</artifactId>
