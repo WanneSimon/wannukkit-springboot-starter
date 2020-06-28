@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 
 import cc.wanforme.nukkit.NukkitApplicationLauncher;
+import cc.wanforme.nukkit.started.NukkitStartedHandler;
 import cn.nukkit.Nukkit;
 import cn.nukkit.Server;
 
@@ -25,8 +26,11 @@ import cn.nukkit.Server;
 )
 public class NukkitSpringCenter implements CommandLineRunner{
 	private static final Logger log = LoggerFactory.getLogger(NukkitApplicationLauncher.class);
+	
 	@Autowired
 	private NukkitSpringProperties properties;
+	@Autowired
+	private NukkitStartedHandler nukkitStartedHandler;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -35,6 +39,7 @@ public class NukkitSpringCenter implements CommandLineRunner{
 		if(properties.isEnable()) {
 			if(properties.isStartNukkit()) {
 				runNukkit(args);
+				nukkitStartedHandler.config();
 			}
 		}
 	}
@@ -57,6 +62,12 @@ public class NukkitSpringCenter implements CommandLineRunner{
 	public void stopNukkit() {
 		log.info("Shutting down nukkit server.");
 		Server.getInstance().shutdown();
+		nukkitStartedHandler.setNukkitStarted(false);
+	}
+	
+	/** nukkit是否启动成功了*/
+	public boolean isNukkitStarted() {
+		return nukkitStartedHandler.isNukkitStarted();
 	}
 	
 }

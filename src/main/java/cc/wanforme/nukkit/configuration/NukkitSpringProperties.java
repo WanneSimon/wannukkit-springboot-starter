@@ -15,6 +15,12 @@ public class NukkitSpringProperties {
 	/** 使用spring写的nukkit插件在哪个目录下*/
 	private String nukkitSpringPluginLocation = "nsplugins";
 	
+	/** 监听 nukkit 启动的间隔（ms）*/
+	private int listenTick = 50;
+	/** 监听 nukkit 启动的超时时间（ms）*/
+	private int listenTimeOut = 6000;
+
+	
 	public boolean isEnable() {
 		return enable;
 	}
@@ -36,7 +42,21 @@ public class NukkitSpringProperties {
 	public void setNukkitSpringPluginLocation(String nukkitSpringPluginLocation) {
 		this.nukkitSpringPluginLocation = nukkitSpringPluginLocation;
 	}
-
+	
+	public int getListenTick() {
+		return listenTick;
+	}
+	public void setListenTick(int listenTick) {
+		this.listenTick = listenTick;
+	}
+	
+	public int getListenTimeOut() {
+		return listenTimeOut;
+	}
+	public void setListenTimeOut(int listenTimeOut) {
+		this.listenTimeOut = listenTimeOut;
+	}
+	
 	@Override
 	public String toString() {
 		return "NukkitSpringProperties [enable=" + enable + ", startNukkit=" + startNukkit
