@@ -22,8 +22,8 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-
 # eclipse
+.settings/
 .classpath
 .project
 target/
@@ -43,4 +43,3 @@ nukkit.yml
 ops.txt
 server.properties
 white-list.txt
-
