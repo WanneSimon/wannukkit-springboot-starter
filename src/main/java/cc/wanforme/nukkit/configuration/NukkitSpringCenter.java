@@ -9,9 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 
 import cc.wanforme.nukkit.NukkitApplicationLauncher;
-import cc.wanforme.nukkit.configuration.started.NukkitStartedHandler;
-import cn.nukkit.Nukkit;
-import cn.nukkit.Server;
+import cc.wanforme.nukkit.configuration.started.NukkitStartHandler;
 
 /**
  * @author wanne
@@ -30,7 +28,7 @@ public class NukkitSpringCenter implements CommandLineRunner{
 	@Autowired
 	private NukkitSpringProperties properties;
 	@Autowired
-	private NukkitStartedHandler nukkitStartedHandler;
+	private NukkitStartHandler nukkitStartHandler;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -38,36 +36,10 @@ public class NukkitSpringCenter implements CommandLineRunner{
 		
 		if(properties.isEnable()) {
 			if(properties.isStartNukkit()) {
-				this.runNukkit(args);
-				nukkitStartedHandler.config();
+				nukkitStartHandler.runNukkit(args);
 			}
 		}
 	}
 
-	public void runNukkit(String... args) {
-		Runnable nukkitTask = new Runnable() {
-			public void run() {
-				log.info("Starting nukkit server.");
-				Nukkit.main(args);
-			}
-		};
-		
-		Thread t = new Thread(nukkitTask);
-		t.start();
-		// 非 web 应用，需要等待启动 nukkit 并阻塞当前线程
-		// normal application needs to block current thread.
-//		t.join(); 
-	}
-	
-	public void stopNukkit() {
-		log.info("Shutting down nukkit server.");
-		Server.getInstance().shutdown();
-		nukkitStartedHandler.setNukkitStarted(false);
-	}
-	
-	/** nukkit是否启动成功了*/
-	public boolean isNukkitStarted() {
-		return nukkitStartedHandler.isNukkitStarted();
-	}
 	
 }
