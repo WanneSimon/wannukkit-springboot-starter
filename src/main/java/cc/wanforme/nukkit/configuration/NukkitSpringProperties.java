@@ -20,7 +20,7 @@ public class NukkitSpringProperties {
 	/** 监听 nukkit 启动的超时时间（ms）*/
 	private int listenTimeOut = 6000;
 	/** 需要在 nukkit 启动前保存到外部的文件夹*/
-	private String[] savingFoldersBeforeNukkit = { "plugins" };
+	private String[] savingFilesBeforeNukkit = { "plugins" };
 	
 	public boolean isEnable() {
 		return enable;
@@ -58,11 +58,11 @@ public class NukkitSpringProperties {
 		this.listenTimeOut = listenTimeOut;
 	}
 	
-	public String[] getSavingFoldersBeforeNukkit() {
-		return savingFoldersBeforeNukkit;
+	public String[] getSavingFilesBeforeNukkit() {
+		return savingFilesBeforeNukkit;
 	}
-	public void setSavingFoldersBeforeNukkit(String[] savingFoldersBeforeNukkit) {
-		this.savingFoldersBeforeNukkit = savingFoldersBeforeNukkit;
+	public void setSavingFilesBeforeNukkit(String[] savingFilesBeforeNukkit) {
+		this.savingFilesBeforeNukkit = savingFilesBeforeNukkit;
 	}
 	
 }

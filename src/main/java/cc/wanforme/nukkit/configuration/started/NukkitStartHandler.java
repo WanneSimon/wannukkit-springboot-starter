@@ -74,10 +74,10 @@ public class NukkitStartHandler {
 		}
 		
 		// 保存项目内部资源到外部
-		if(properties.getSavingFoldersBeforeNukkit() != null) {
-			for (String innerFolder : properties.getSavingFoldersBeforeNukkit()) {
+		if(properties.getSavingFilesBeforeNukkit() != null) {
+			for (String innerFolder : properties.getSavingFilesBeforeNukkit()) {
 				try {
-					ResourceSaver.saveInnerFolder(innerFolder, true);
+					ResourceSaver.saveInnerFile(innerFolder, true);
 				} catch (IOException e) {
 					log.error("saving resources-folder error ["+innerFolder+"]", e);
 				}

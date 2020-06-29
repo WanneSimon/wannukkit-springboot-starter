@@ -25,8 +25,8 @@ public class ResourceSaver {
 	
 	/**保存工程内部的文件<br>
 	 * save files (inner of project)
-	 * @param sourcePath 
-	 * @param desFile 
+	 * @param sourcePath 只能是文件
+	 * @param desFile 只能是文件
 	 * @param override 是否覆盖 (override the old file)
 	 * @return
 	 * @throws IOException 
@@ -60,27 +60,33 @@ public class ResourceSaver {
 	}
 	
 	/** 保存应用内部某个文件夹到应用外部
-	 * @param innerFolder
+	 * @param innerFile 可以是文件，也可以是分割符结尾的文件夹
 	 * @param override 是否覆盖 (override the old file)
 	 * @return
 	 * @throws IOException 
 	 */
-	public static boolean saveInnerFolder(String innerFolder, boolean override) throws IOException {
-		if(innerFolder==null) {
+	public static boolean saveInnerFile(String innerFile, boolean override) throws IOException {
+		if(innerFile==null) {
 			return false;
 		}
 		
-		if(!innerFolder.endsWith("/") && !innerFolder.endsWith(File.separator)) {
-			innerFolder += File.separator;
+		// 分割符结尾的是文件夹，否则就是单个文件
+		
+		// 保存单个文件
+		if(!innerFile.endsWith("/") && !innerFile.endsWith(File.separator)) {
+//			innerFile += File.separator;
+			return ResourceSaver.saveInnerResource(innerFile, 
+					ResourceSaver.appLocation + "/" + innerFile, override);
 		}
 		
+		// 保存文件夹
 		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-		Resource[] resources = resolver.getResources("classpath:" + innerFolder + "*");
+		Resource[] resources = resolver.getResources("classpath:" + innerFile + "*");
 		if(resources != null) {
 			for (Resource resource : resources) {
 				String filename = resource.getFilename();
-				ResourceSaver.saveInnerResource(innerFolder + filename, 
-						appLocation + "/" + innerFolder + filename, override);
+				ResourceSaver.saveInnerResource(innerFile + filename, 
+						appLocation + "/" + innerFile + filename, override);
 			}
 		}
 		return true;
