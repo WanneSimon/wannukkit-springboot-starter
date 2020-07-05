@@ -34,7 +34,7 @@ bin/
 # nukkit
 logs/
 players/
-plugins/
+# plugins/
 resource_packs/
 worlds/
 banned-ips.json
