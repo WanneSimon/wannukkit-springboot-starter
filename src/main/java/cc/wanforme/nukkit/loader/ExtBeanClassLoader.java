@@ -38,6 +38,8 @@ public class ExtBeanClassLoader extends URLClassLoader{
                 if (result != null) {
                 	// 添加全局 class
                     loader.setGlobalClass(name, result);
+                    // 处理 Spring 相关的类
+                    
                 }
             }
 
@@ -46,7 +48,6 @@ public class ExtBeanClassLoader extends URLClassLoader{
 
         return result;
     }
-	
 	
 	
 }
