@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cc.wanforme.nukkit.configuration.NukkitSpringProperties;
+import cc.wanforme.nukkit.plugins.NukkitApplicationContextHolder;
 import cc.wanforme.nukkit.util.NukkitServerUtil;
 import cc.wanforme.nukkit.util.ResourceSaver;
 import cn.nukkit.Nukkit;
@@ -28,6 +29,9 @@ public class NukkitStartHandler {
 	
 	@Autowired
 	private NukkitSpringProperties properties;
+	
+	@Autowired
+	private NukkitApplicationContextHolder contextHolder;
 	
 	private Thread subThread = null;
 	private boolean nukkitStarted = false;
@@ -89,7 +93,8 @@ public class NukkitStartHandler {
 	
 	/** nukkit 启动成功后的处理，读取各个地方的插件*/
 	protected void afterNukkitStarted() {
-		
+		// 读取并加载插件
+		contextHolder.loadPlugins();
 	}
 	
 	
