@@ -1,4 +1,4 @@
-package cc.wanforme.nukkit.configuration;
+package cc.wanforme.nukkit.spring.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

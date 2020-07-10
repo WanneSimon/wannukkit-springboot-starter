@@ -1,4 +1,4 @@
-package cc.wanforme.nukkit.configuration.started;
+package cc.wanforme.nukkit.spring.configuration.started;
 
 
 import java.io.IOException;
@@ -11,10 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cc.wanforme.nukkit.configuration.NukkitSpringProperties;
-import cc.wanforme.nukkit.util.ResourceSaver;
+import cc.wanforme.nukkit.spring.configuration.NukkitSpringProperties;
+import cc.wanforme.nukkit.spring.plugins.NukkitApplicationContextHolder;
+import cc.wanforme.nukkit.spring.util.NukkitServerUtil;
+import cc.wanforme.nukkit.spring.util.ResourceSaver;
 import cn.nukkit.Nukkit;
-import cn.nukkit.Server;
 
 /** nukkit 启动后的处理
  * @author wanne
@@ -28,6 +29,9 @@ public class NukkitStartHandler {
 	
 	@Autowired
 	private NukkitSpringProperties properties;
+	
+	@Autowired
+	private NukkitApplicationContextHolder contextHolder;
 	
 	private Thread subThread = null;
 	private boolean nukkitStarted = false;
@@ -89,7 +93,8 @@ public class NukkitStartHandler {
 	
 	/** nukkit 启动成功后的处理，读取各个地方的插件*/
 	protected void afterNukkitStarted() {
-		
+		// 读取并加载插件
+		contextHolder.loadPlugins();
 	}
 	
 	
@@ -115,7 +120,7 @@ public class NukkitStartHandler {
 	
 	public void stopNukkit() {
 		log.info("Shutting down nukkit server.");
-		Server.getInstance().shutdown();
+		NukkitServerUtil.getServer().shutdown();
 		this.setNukkitStarted(false);
 	}
 	

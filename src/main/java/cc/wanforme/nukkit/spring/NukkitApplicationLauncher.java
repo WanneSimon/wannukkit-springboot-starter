@@ -1,4 +1,4 @@
-package cc.wanforme.nukkit;
+package cc.wanforme.nukkit.spring;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
