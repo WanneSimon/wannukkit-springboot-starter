@@ -1,12 +1,12 @@
-package cc.wanforme.nukkit.configuration.started;
+package cc.wanforme.nukkit.spring.configuration.started;
 
 import java.util.concurrent.Callable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cc.wanforme.nukkit.configuration.NukkitSpringProperties;
-import cc.wanforme.nukkit.util.NukkitServerUtil;
+import cc.wanforme.nukkit.spring.configuration.NukkitSpringProperties;
+import cc.wanforme.nukkit.spring.util.NukkitServerUtil;
 import cn.nukkit.Server;
 
 /** listener for nukkit-launch.<br>

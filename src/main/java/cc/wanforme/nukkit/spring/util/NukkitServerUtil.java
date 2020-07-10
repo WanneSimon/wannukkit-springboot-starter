@@ -1,4 +1,4 @@
-package cc.wanforme.nukkit.util;
+package cc.wanforme.nukkit.spring.util;
 
 import cn.nukkit.Server;
 import cn.nukkit.plugin.PluginManager;

@@ -1,4 +1,4 @@
-package cc.wanforme.nukkit.configuration;
+package cc.wanforme.nukkit.spring.configuration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import cc.wanforme.nukkit.NukkitApplicationLauncher;
-import cc.wanforme.nukkit.configuration.started.NukkitStartHandler;
+import cc.wanforme.nukkit.spring.NukkitApplicationLauncher;
+import cc.wanforme.nukkit.spring.configuration.started.NukkitStartHandler;
 
 /**
  * @author wanne

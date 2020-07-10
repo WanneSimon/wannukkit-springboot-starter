@@ -1,4 +1,4 @@
-package cc.wanforme.nukkit.util;
+package cc.wanforme.nukkit.spring.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

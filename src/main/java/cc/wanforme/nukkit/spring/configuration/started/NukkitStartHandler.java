@@ -1,4 +1,4 @@
-package cc.wanforme.nukkit.configuration.started;
+package cc.wanforme.nukkit.spring.configuration.started;
 
 
 import java.io.IOException;
@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cc.wanforme.nukkit.configuration.NukkitSpringProperties;
-import cc.wanforme.nukkit.plugins.NukkitApplicationContextHolder;
-import cc.wanforme.nukkit.util.NukkitServerUtil;
-import cc.wanforme.nukkit.util.ResourceSaver;
+import cc.wanforme.nukkit.spring.configuration.NukkitSpringProperties;
+import cc.wanforme.nukkit.spring.plugins.NukkitApplicationContextHolder;
+import cc.wanforme.nukkit.spring.util.NukkitServerUtil;
+import cc.wanforme.nukkit.spring.util.ResourceSaver;
 import cn.nukkit.Nukkit;
 
 /** nukkit 启动后的处理

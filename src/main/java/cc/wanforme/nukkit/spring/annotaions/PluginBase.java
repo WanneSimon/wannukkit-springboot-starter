@@ -1,4 +1,4 @@
-package cc.wanforme.nukkit.annotaions;
+package cc.wanforme.nukkit.spring.annotaions;
 
 /** 定义插件声明类
  * @author wanne

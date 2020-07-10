@@ -1,4 +1,4 @@
-package cc.wanforme.nukkit.plugins;
+package cc.wanforme.nukkit.spring.plugins;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -21,12 +21,12 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import cc.wanforme.nukkit.configuration.NukkitSpringProperties;
-import cc.wanforme.nukkit.configuration.started.NukkitStartHandler;
-import cc.wanforme.nukkit.loader.ExtBeanClassLoader;
-import cc.wanforme.nukkit.loader.ExtPluginLoader;
-import cc.wanforme.nukkit.util.NukkitServerUtil;
-import cc.wanforme.nukkit.util.PathResource;
+import cc.wanforme.nukkit.spring.configuration.NukkitSpringProperties;
+import cc.wanforme.nukkit.spring.configuration.started.NukkitStartHandler;
+import cc.wanforme.nukkit.spring.loader.ExtBeanClassLoader;
+import cc.wanforme.nukkit.spring.loader.ExtPluginLoader;
+import cc.wanforme.nukkit.spring.util.NukkitServerUtil;
+import cc.wanforme.nukkit.spring.util.PathResource;
 import cn.nukkit.plugin.PluginDescription;
 import cn.nukkit.plugin.PluginLoader;
 import cn.nukkit.plugin.PluginManager;

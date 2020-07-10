@@ -1,4 +1,4 @@
-package cc.wanforme.nukkit.loader;
+package cc.wanforme.nukkit.spring.loader;
 
 import java.net.URL;
 import java.net.URLClassLoader;

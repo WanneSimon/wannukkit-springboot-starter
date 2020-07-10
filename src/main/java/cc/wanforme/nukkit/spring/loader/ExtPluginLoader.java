@@ -1,4 +1,4 @@
-package cc.wanforme.nukkit.loader;
+package cc.wanforme.nukkit.spring.loader;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import cc.wanforme.nukkit.plugins.NukkitApplicationContextHolder;
-import cc.wanforme.nukkit.util.NukkitServerUtil;
+import cc.wanforme.nukkit.spring.plugins.NukkitApplicationContextHolder;
+import cc.wanforme.nukkit.spring.util.NukkitServerUtil;
 import cn.nukkit.event.plugin.PluginDisableEvent;
 import cn.nukkit.event.plugin.PluginEnableEvent;
 import cn.nukkit.plugin.Plugin;
