@@ -101,7 +101,7 @@ public class NukkitApplicationContext implements ApplicationContextAware{
 		// ExtPluginLoader 会再过滤一次文件类型
 		File[] files = pluginDir.listFiles();
 		List<File> fs = new ArrayList<>(Arrays.asList(files));
-		URL[] uris = fs.stream().filter(f -> ExtPluginLoader.isJarOrDirectory(f)).map(File::toURI).map(t -> {
+		URL[] uris = fs.stream().filter(f -> PathResource.isJarOrDirectory(f)).map(File::toURI).map(t -> {
 			try {
 				return t.toURL();
 			} catch (MalformedURLException e) {
