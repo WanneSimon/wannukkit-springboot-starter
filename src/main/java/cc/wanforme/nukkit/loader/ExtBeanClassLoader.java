@@ -23,6 +23,7 @@ public class ExtBeanClassLoader extends URLClassLoader{
 		super(urls, parent);
 	}
 
+	@Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
     	// 遵循原规则
         if (name.startsWith("cn.nukkit.") || name.startsWith("net.minecraft.")) {
