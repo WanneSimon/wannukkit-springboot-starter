@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import cc.wanforme.nukkit.spring.NukkitApplicationLauncher;
 import cc.wanforme.nukkit.spring.configuration.started.NukkitStartHandler;
 
 /**
@@ -23,7 +22,7 @@ import cc.wanforme.nukkit.spring.configuration.started.NukkitStartHandler;
 	havingValue = "true"
 )
 public class NukkitSpringCenter implements CommandLineRunner{
-	private static final Logger log = LoggerFactory.getLogger(NukkitApplicationLauncher.class);
+	private static final Logger log = LoggerFactory.getLogger(NukkitSpringCenter.class);
 	
 	@Autowired
 	private NukkitSpringProperties properties;

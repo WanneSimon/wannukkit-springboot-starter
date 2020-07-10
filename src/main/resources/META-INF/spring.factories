@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=cc.wanforme.nukkit.configuration.NukkitSpringCenter
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=cc.wanforme.nukkit.spring.configuration.NukkitSpringCenter
