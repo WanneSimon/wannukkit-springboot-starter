@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Pattern;
@@ -21,7 +19,7 @@ import cn.nukkit.utils.Utils;
  */
 public class ExtPluginLoader implements PluginLoader{
 	// 
-	private final Map<String, Class> globalClasses = new HashMap<>();
+//	private final Map<String, Class> globalClasses = new HashMap<>();
 	
 	@Override
 	public Plugin loadPlugin(String filename) throws Exception {
@@ -30,7 +28,7 @@ public class ExtPluginLoader implements PluginLoader{
 
 	@Override
 	public Plugin loadPlugin(File file) throws Exception {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -85,27 +83,25 @@ public class ExtPluginLoader implements PluginLoader{
 
 	@Override
 	public void enablePlugin(Plugin plugin) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void disablePlugin(Plugin plugin) {
-		// TODO Auto-generated method stub
 		
 	}
 
 
-	void setGlobalClass(String name, Class<?> result) {
-		globalClasses.put(name, result);
-	}
-
-	Class<?> getGlobalClassByName(String name) {
-		return globalClasses.get(name);
-	}
+//	void setGlobalClass(String name, Class<?> result) {
+//		globalClasses.put(name, result);
+//	}
+//
+//	Class<?> getGlobalClassByName(String name) {
+//		return globalClasses.get(name);
+//	}
 	
 	/** 判断是否是文件夹 或 jar文件*/
-	protected boolean isJarOrDirectory(File file) {
+	public static boolean isJarOrDirectory(File file) {
 		return file.isDirectory() || file.getName().endsWith(".jar");
 	}
 	
