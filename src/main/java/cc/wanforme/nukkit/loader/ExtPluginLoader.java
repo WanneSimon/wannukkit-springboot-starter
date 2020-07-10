@@ -100,9 +100,4 @@ public class ExtPluginLoader implements PluginLoader{
 //		return globalClasses.get(name);
 //	}
 	
-	/** 判断是否是文件夹 或 jar文件*/
-	public static boolean isJarOrDirectory(File file) {
-		return file.isDirectory() || file.getName().endsWith(".jar");
-	}
-	
 }
