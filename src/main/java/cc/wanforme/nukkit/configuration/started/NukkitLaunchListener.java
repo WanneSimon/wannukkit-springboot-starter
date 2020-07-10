@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cc.wanforme.nukkit.configuration.NukkitSpringProperties;
+import cc.wanforme.nukkit.util.NukkitServerUtil;
 import cn.nukkit.Server;
 
 /** listener for nukkit-launch.<br>
@@ -67,7 +68,7 @@ public class NukkitLaunchListener implements Callable<Integer>{
 	/** 当前状态判断*/
 	protected void queryNukkitStatus() {
 //		int flag = NOT_EXECUTE;
-		Server server = Server.getInstance();
+		Server server = NukkitServerUtil.getServer();
 		if(flag == NOT_EXECUTE) {
 			period = "launching nukkit";
 		}

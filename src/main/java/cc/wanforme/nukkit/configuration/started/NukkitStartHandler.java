@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cc.wanforme.nukkit.configuration.NukkitSpringProperties;
+import cc.wanforme.nukkit.util.NukkitServerUtil;
 import cc.wanforme.nukkit.util.ResourceSaver;
 import cn.nukkit.Nukkit;
-import cn.nukkit.Server;
 
 /** nukkit 启动后的处理
  * @author wanne
@@ -115,7 +115,7 @@ public class NukkitStartHandler {
 	
 	public void stopNukkit() {
 		log.info("Shutting down nukkit server.");
-		Server.getInstance().shutdown();
+		NukkitServerUtil.getServer().shutdown();
 		this.setNukkitStarted(false);
 	}
 	
