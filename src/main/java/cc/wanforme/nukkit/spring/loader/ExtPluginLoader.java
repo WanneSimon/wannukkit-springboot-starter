@@ -143,7 +143,7 @@ public class ExtPluginLoader implements PluginLoader{
         if (plugin instanceof PluginBase && plugin.isEnabled()) {
         	log.info("disable plugin {}", plugin.getDescription().getFullName());
 
-            NukkitServerUtil.getPluginManager().disablePlugin(plugin);
+//            NukkitServerUtil.getPluginManager().disablePlugin(plugin);
 
             NukkitServerUtil.getPluginManager().callEvent(new PluginDisableEvent(plugin));
 
