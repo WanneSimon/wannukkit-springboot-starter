@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -28,6 +27,7 @@ import cc.wanforme.nukkit.spring.loader.ExtPluginLoader;
 import cc.wanforme.nukkit.spring.loader.ExtResourceLoader;
 import cc.wanforme.nukkit.spring.util.NukkitServerUtil;
 import cc.wanforme.nukkit.spring.util.PathResource;
+import cn.nukkit.plugin.Plugin;
 import cn.nukkit.plugin.PluginDescription;
 import cn.nukkit.plugin.PluginLoader;
 import cn.nukkit.plugin.PluginManager;
@@ -70,7 +70,7 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 	}
 	
 	
-	/** 读取插件nsplugins, 开放给外部直接调用(整个过程，没有实例化 pluginContext)
+	/** 读取插件nsplugins, 开放给外部直接调用
 	 */
 	public void loadPlugins() {
 		// 检查nukkit是否启用，并且启动了nukkit
@@ -85,11 +85,14 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 		if(classLoader != null && nukkitStartHandler.isNukkitStarted()) {
 			List<File> fs = this.urlToFile(classLoader.getURLs());
 			
-			// 初始化 PluginContext, 并预先读取有关的 PluginDescription
+			// 初始化 PluginContext, 并预先读取所有插件的 PluginDescription
 			this.initPluginContext(fs);
 			
 			// 加载插件
-			this.loadPlugins(fs);
+			List<Plugin> plugins = this.loadPlugins(fs);
+			
+			// 启用插件
+			this.enablePlugins(plugins);;
 		} else {
 			log.warn("There's no plugin, or error occured while loading plugins!");
 		}
@@ -183,41 +186,43 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 		}
 		
 		// 扫描所有包
-		pluginContext = new AnnotationConfigApplicationContext();
 //		pluginContext = new AnnotationConfigApplicationContext(
 //				(DefaultListableBeanFactory) context.getAutowireCapableBeanFactory());
-		// TODO... 注册所有类registerBeanDefinition
-//		pluginContext.registerBeanDefinition(beanName, beanDefinition);
 //		pluginContext.scan(basePackage.toArray(new String[0]));
 		
-		
 //		pluginContext = new AnnotationConfigApplicationContext(basePackage.toArray(new String[0]));
+		pluginContext = new AnnotationConfigApplicationContext();
 		pluginContext.setClassLoader(classLoader);
 		// 参考 DefaultResourceLoader
 		pluginContext.setResourceLoader(new ExtResourceLoader(classLoader));
 		pluginContext.scan(basePackage.toArray(new String[0]));
 		pluginContext.refresh();
-		String[] names = pluginContext.getBeanDefinitionNames();
-		System.out.println(basePackage);
-		System.out.println(">>>>>>");
-		for (String s : names) {
-			System.out.println(s);
-		}
-
 	}
 	
 	/** 真正加载插件的地方*/ 
-	private void loadPlugins(List<File> fs) {
+	private List<Plugin> loadPlugins(List<File> fs) {
 		// 获取 PluginManager
 		PluginManager pluginManager = NukkitServerUtil.getPluginManager();
+		List<Plugin> list= new ArrayList<>(fs.size());
 		if (pluginManager != null) {
 			for (File f : fs) {
-				pluginManager.loadPlugin(f, pluginLoaders);
+				Plugin plugin = pluginManager.loadPlugin(f, pluginLoaders);
+				if(plugin!=null) {
+					list.add(plugin);
+				}
 			}
 		} else {
 			log.warn("It seems the server is not started, during loading plugins!");
 		}
-
+		return list;
+	}
+	
+	/** 启用插件*/
+	private void enablePlugins(List<Plugin> plugins) {
+		PluginManager pluginManager = NukkitServerUtil.getPluginManager();
+		for (Plugin plugin : plugins) {
+			pluginManager.enablePlugin(plugin);
+		}
 	}
 	
 	private List<File> urlToFile(URL[] urls) {
