@@ -195,6 +195,7 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 		pluginContext.setClassLoader(classLoader);
 		// 参考 DefaultResourceLoader
 		pluginContext.setResourceLoader(new ExtResourceLoader(classLoader));
+		pluginContext.setParent(context);
 		pluginContext.scan(basePackage.toArray(new String[0]));
 		pluginContext.refresh();
 	}
