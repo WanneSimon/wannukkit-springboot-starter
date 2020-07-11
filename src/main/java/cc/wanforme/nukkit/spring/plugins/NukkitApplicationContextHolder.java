@@ -25,6 +25,7 @@ import cc.wanforme.nukkit.spring.configuration.NukkitSpringProperties;
 import cc.wanforme.nukkit.spring.configuration.started.NukkitStartHandler;
 import cc.wanforme.nukkit.spring.loader.ExtBeanClassLoader;
 import cc.wanforme.nukkit.spring.loader.ExtPluginLoader;
+import cc.wanforme.nukkit.spring.loader.ExtResourceLoader;
 import cc.wanforme.nukkit.spring.util.NukkitServerUtil;
 import cc.wanforme.nukkit.spring.util.PathResource;
 import cn.nukkit.plugin.PluginDescription;
@@ -173,6 +174,8 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 				if(lastDot == -1) {
 					log.warn(" Plugin - [{}] use default package, that's deprecated!");
 					main = "";
+				} else {
+					main = main.substring(0, lastDot);
 				}
 				
 				basePackage.add(main);
@@ -180,11 +183,27 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 		}
 		
 		// 扫描所有包
-//		pluginContext = new AnnotationConfigApplicationContext();
-		pluginContext = new AnnotationConfigApplicationContext(
-				(DefaultListableBeanFactory) context.getAutowireCapableBeanFactory());
+		pluginContext = new AnnotationConfigApplicationContext();
+//		pluginContext = new AnnotationConfigApplicationContext(
+//				(DefaultListableBeanFactory) context.getAutowireCapableBeanFactory());
+		// TODO... 注册所有类registerBeanDefinition
+//		pluginContext.registerBeanDefinition(beanName, beanDefinition);
+//		pluginContext.scan(basePackage.toArray(new String[0]));
+		
+		
+//		pluginContext = new AnnotationConfigApplicationContext(basePackage.toArray(new String[0]));
+		pluginContext.setClassLoader(classLoader);
+		// 参考 DefaultResourceLoader
+		pluginContext.setResourceLoader(new ExtResourceLoader(classLoader));
 		pluginContext.scan(basePackage.toArray(new String[0]));
 		pluginContext.refresh();
+		String[] names = pluginContext.getBeanDefinitionNames();
+		System.out.println(basePackage);
+		System.out.println(">>>>>>");
+		for (String s : names) {
+			System.out.println(s);
+		}
+
 	}
 	
 	/** 真正加载插件的地方*/ 

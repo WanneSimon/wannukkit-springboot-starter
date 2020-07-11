@@ -48,7 +48,7 @@ public class ExtPluginLoader implements PluginLoader{
 	public Plugin loadPlugin(File file) throws Exception {
         PluginDescription description = this.getPluginDescription(file);
         if (description != null) {
-        	log.info("load plugin {0}" + description.getFullName());
+        	log.info("load plugin " + description.getFullName());
             File dataFolder = new File(file.getParentFile(), description.getName());
 
             String main = description.getMain();
