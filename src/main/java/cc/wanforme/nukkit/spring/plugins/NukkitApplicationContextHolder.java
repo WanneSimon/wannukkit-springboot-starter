@@ -1,6 +1,7 @@
 package cc.wanforme.nukkit.spring.plugins;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -27,10 +28,12 @@ import cc.wanforme.nukkit.spring.loader.ExtPluginLoader;
 import cc.wanforme.nukkit.spring.loader.ExtResourceLoader;
 import cc.wanforme.nukkit.spring.util.NukkitServerUtil;
 import cc.wanforme.nukkit.spring.util.PathResource;
+import cn.nukkit.command.Command;
 import cn.nukkit.plugin.Plugin;
 import cn.nukkit.plugin.PluginDescription;
 import cn.nukkit.plugin.PluginLoader;
 import cn.nukkit.plugin.PluginManager;
+import cn.nukkit.registry.CommandRegistry;
 
 /** 上下文辅助类<br>
  * 如果启用 nukkit，那么还将 创建一个新的 context 加载插件
@@ -205,11 +208,48 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 		PluginManager pluginManager = NukkitServerUtil.getPluginManager();
 		List<Plugin> list= new ArrayList<>(fs.size());
 		if (pluginManager != null) {
-			for (File f : fs) {
-				Plugin plugin = pluginManager.loadPlugin(f, pluginLoaders);
-				if(plugin!=null) {
-					list.add(plugin);
+			int tryCounter = 0; // 加载插件重试次数
+			boolean isCommandClosed = false; //读取插件过程中， CommandRegistry 是否关闭
+			for (int i = 0; i < fs.size(); i++) {
+				File f = fs.get(i);
+				
+				// 我真不想加下面这句代码，但异常被PluginManager捕获，又没得办法
+				if(CommandRegistry.get().isClosed()) {
+					isCommandClosed = true;
+					this.openCommandRegistry();
 				}
+				
+				Plugin plugin = pluginManager.loadPlugin(f, pluginLoaders);
+				if (plugin != null) {
+					list.add(plugin);
+					
+					if(tryCounter > 0) {
+						log.info("Commond Registry opened success");
+						tryCounter = 0;
+					}
+					
+				} 
+				else if (CommandRegistry.get().isClosed()) {
+					isCommandClosed = true;
+					if (tryCounter >= 0 && tryCounter < 3) {
+						i--; // 回滚下标，重试
+						tryCounter++;
+						log.info("Commond Registry closed! trying to open {}...", tryCounter);
+						if (!this.openCommandRegistry()) { // 如果 CommandRegistry 打开失败！
+							i++;
+						} else {
+
+						}
+					} else if (tryCounter >=3) {
+						log.info("Commond Registry can't be opened!");
+						tryCounter = 0;
+					}
+				}
+
+			}
+			
+			if(isCommandClosed) {
+				CommandRegistry.get().close();
 			}
 		} else {
 			log.warn("It seems the server is not started, during loading plugins!");
@@ -238,4 +278,48 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 		return fs;
 	}
 
+	/** 反射打开 CommandRegistry, 返回是否成功打开*/
+	private boolean openCommandRegistry() {
+		try {
+			openCommandRegistry(false);
+			return true;
+		} catch (Exception e) {
+			log.info("open failed!", e);
+			return false;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void openCommandRegistry(boolean isClose) throws Exception {
+		CommandRegistry obj = CommandRegistry.get();
+		Class<CommandRegistry> clazz = CommandRegistry.class;
+		
+		Field field = clazz.getDeclaredField("closed");
+		boolean access = field.isAccessible();
+		if(!access) {
+			field.setAccessible(true);
+		}
+		field.set(obj, isClose);
+		field.setAccessible(access);
+		
+		// CommandRegistry 关闭之后, 命令不可增删改。 registeredCommands,knownAliases
+		Field registeredCommands = clazz.getDeclaredField("registeredCommands");
+		access = registeredCommands.isAccessible();
+		if(!access) {
+			registeredCommands.setAccessible(true);
+		}
+		Map<String, Command> value1 = (Map<String, Command>)registeredCommands.get(obj);
+		registeredCommands.set(obj, new HashMap<>(value1));
+		registeredCommands.setAccessible(access);
+		
+		Field knownAliases = clazz.getDeclaredField("knownAliases");
+		access = knownAliases.isAccessible();
+		if(!access) {
+			knownAliases.setAccessible(true);
+		}
+		Map<String, String> value2 = (Map<String, String>)knownAliases.get(obj);
+		knownAliases.set(obj, new HashMap<>(value2));
+		knownAliases.setAccessible(access);
+	}
+	
 }
