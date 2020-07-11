@@ -85,6 +85,7 @@
 			<artifactId>nukkit</artifactId>
 			<version>${nukkit.version}</version>
 			<!-- <optional>true</optional> -->
+			<!-- <optional>true</optional> -->
 			<!-- nukkit 自带了编译后的gson,没办法移除，只能去掉spring中的gson，可能引起兼容问题 -->
 			<!-- 
 			<exclusions>
