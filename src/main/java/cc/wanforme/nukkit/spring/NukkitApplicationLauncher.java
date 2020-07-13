@@ -16,7 +16,11 @@ public class NukkitApplicationLauncher {
 	public static String serverFullAddress = ""; //
 	
 	public static void launchNukkit(Class<?> appClazz, String...args) {
-		Environment env = SpringApplication.run(appClazz, args).getEnvironment();
+//		Environment env = SpringApplication.run(appClazz, args).getEnvironment();
+
+		SpringApplication app = new SpringApplication(appClazz);
+//		app.setResourceLoader(new BootApplicationResourceLoader());
+		Environment env = app.run(args).getEnvironment();
 		logApplicationStartup(env);
 	}
 	

@@ -25,7 +25,9 @@ import cn.nukkit.Nukkit;
 public class NukkitStartHandler {
 	private static final Logger log = LoggerFactory.getLogger(NukkitStartHandler.class);
 	/** nukkit启动前，内置的必须要保存到外部的文件*/ 
-	private static final String[] preSavingFiles = { "plugins/PMPlus.jar" }; 
+	private static final String[] preSavingFiles = { 
+			"plugins/PMPlus.jar", 
+	}; 
 	
 	@Autowired
 	private NukkitSpringProperties properties;
