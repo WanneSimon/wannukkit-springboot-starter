@@ -17,10 +17,6 @@ public class ExtResourceLoader extends DefaultResourceLoader{
 	@Override
 	public Resource getResource(String location) {
 		Resource resource =  super.getResource(location);
-		if(resource == null) {
-			
-		}
-		
 		return resource;
 	}
 	
