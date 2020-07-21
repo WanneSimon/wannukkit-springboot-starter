@@ -18,7 +18,7 @@ SpringBoot Web starter for nukkit
 3. 是否启动 nukkit 是可选。
 4. 基于 Spring 注解式的 nukkit 插件开发 -- nsplugin。
 5. 内置原nukkit插件 -- [PMPlus](https://github.com/WanneSimon/PMPlus/tree/2.0/build)（注：已支持cloudburst）。
-6. 项目内部文件可以保存到项目外。
+6. 支持在 nukkit 启动前保存内部资源到外部。例如预置插件。
 
 
 
