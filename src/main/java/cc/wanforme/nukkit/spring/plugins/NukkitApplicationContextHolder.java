@@ -178,7 +178,7 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 				// 使用默认包的情况 
 				// TODO 仍然需要重新处理
 				if(lastDot == -1) {
-					log.warn(" Plugin - [{}] use default package, that's deprecated!");
+					log.warn(" Plugin - [{}] use default package, that's deprecated!", des.getName());
 					main = "";
 				} else {
 					main = main.substring(0, lastDot);
