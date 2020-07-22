@@ -13,7 +13,7 @@ import cn.nukkit.command.CommandSender;
  * @author wanne
  * 2020年7月22日
  */
-public abstract class FixedArgumentsHandler implements Comparable<Integer>{
+public abstract class FixedArgumentsHandler implements Comparable<FixedArgumentsHandler>{
 	// 相同
 	public static final int EQUAL = 0;
 	// 不同
@@ -34,7 +34,7 @@ public abstract class FixedArgumentsHandler implements Comparable<Integer>{
 //		this.args = args;
 //		p =  Pattern.compile("\\{\\{.*\\}\\}");
 //	}
-	public FixedArgumentsHandler(String[] args) {
+	public FixedArgumentsHandler(String... args) {
 		this.args = args;
 		p =  Pattern.compile("\\{\\{.*\\}\\}");
 	}
@@ -72,6 +72,13 @@ public abstract class FixedArgumentsHandler implements Comparable<Integer>{
 		return EQUAL;
 	}
 	
+	/** 排序时使用的权重,暂未实现,权重小的先判断*/
+	@Override
+	public int compareTo(FixedArgumentsHandler other) {
+		return 0;
+	}
+	
+	
 	public static void main(String[] args) {
 		Pattern p =  Pattern.compile("\\{\\{.*\\}\\}");
 		
@@ -86,10 +93,4 @@ public abstract class FixedArgumentsHandler implements Comparable<Integer>{
 		}
 	}
 
-	/** 排序时使用的权重,暂未实现,权重小的先判断*/
-	@Override
-	public int compareTo(Integer o) {
-		return 0;
-	}
-	
 }
