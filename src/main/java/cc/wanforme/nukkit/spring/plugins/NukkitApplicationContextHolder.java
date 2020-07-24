@@ -132,34 +132,46 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 	/** 加载插件的所有类,并返回类加载器*/
 	private ExtBeanClassLoader loadClasses() {
 		// 获取项目路径，然后获取到插件路径
-		File projectLocation = PathResource.getProjectLocation();
-		File pluginDir = new File(projectLocation, properties.getNukkitSpringPluginLocation());
-		if (!pluginDir.exists() || !pluginDir.isDirectory()) {
-			pluginDir.mkdir();
-		}
-
-		// 获取所有的文件，并过滤文件类型
-		// ExtPluginLoader 会再过滤一次文件类型
-		File[] files = pluginDir.listFiles();
-		List<File> fs = new ArrayList<>(Arrays.asList(files));
-		URL[] uris = fs.stream().filter(f -> PathResource.isJarOrDirectory(f)).map(File::toURI).map(t -> {
-			try {
-				return t.toURL();
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
+//		File projectLocation = PathResource.getProjectLocation();
+		File projectLocation = new File(System.getProperty("user.dir"));
+		String[] dirs = properties.getNukkitSpringPluginLocation().split("\\,");
+		
+//		URL[] uris = new URL[0];
+		List<URL> uriList = new ArrayList<>();
+		for (String dir : dirs) {
+			File pluginDir = new File(projectLocation, dir);
+			if (!pluginDir.exists() || !pluginDir.isDirectory()) {
+				pluginDir.mkdir();
 			}
-			return null;
-		}).filter(e -> e != null).collect(Collectors.toList()).toArray(new URL[0]);
+			
+			// 获取所有的文件，并过滤文件类型
+			// ExtPluginLoader 会再过滤一次文件类型
+			log.info("[nsplugins] " + pluginDir.getAbsolutePath());
+			
+			File[] files = pluginDir.listFiles();
+			List<File> fs = new ArrayList<>(Arrays.asList(files));
 
+			List<URL> urisTemp = fs.stream().filter(f -> PathResource.isJarOrDirectory(f)).map(File::toURI).map(t -> {
+				try {
+					return t.toURL();
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+				return null;
+			}).filter(e -> e != null).collect(Collectors.toList());
+			
+			uriList.addAll(urisTemp);
+		}
+		
+		URL[] uris = uriList.toArray(new URL[0]);
 		if (uris.length > 0) {
 			// 实例化类加载器，加载所有的类
 			ExtBeanClassLoader classLoader = new ExtBeanClassLoader(uris,
 					Thread.currentThread().getContextClassLoader());
 			return classLoader;
 		}
-		return null;
+		return null;	
 	}
-	
 	
 	/** 初始化插件加载器的 context(并没有指定父容器)*/
 	private void initPluginContext(final List<File> fs){

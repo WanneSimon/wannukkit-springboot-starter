@@ -12,7 +12,8 @@ public class NukkitSpringProperties {
 	private boolean enable = true;
 	/** 是否一同启动 nukkit*/
 	private boolean startNukkit=true;
-	/** 使用spring写的nukkit插件在哪个目录下*/
+	/** 使用spring写的nukkit插件在哪个目录下, 支持 jar 和 字节码形式的*/
+//	private String nukkitSpringPluginLocation = "nsplugins,target";
 	private String nukkitSpringPluginLocation = "nsplugins";
 	
 	/** 监听 nukkit 启动的间隔（ms）*/
@@ -64,5 +65,21 @@ public class NukkitSpringProperties {
 	public void setSavingFilesBeforeNukkit(String[] savingFilesBeforeNukkit) {
 		this.savingFilesBeforeNukkit = savingFilesBeforeNukkit;
 	}
+
+//	public boolean isDevPluginEnable() {
+//		return devPluginEnable;
+//	}
+//
+//	public void setDevPluginEnable(boolean devPluginEnable) {
+//		this.devPluginEnable = devPluginEnable;
+//	}
+//
+//	public String getDevPluginLocation() {
+//		return devPluginLocation;
+//	}
+//
+//	public void setDevPluginLocation(String devPluginLocation) {
+//		this.devPluginLocation = devPluginLocation;
+//	}
 	
 }
