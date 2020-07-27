@@ -28,6 +28,8 @@ public abstract class PluginLangHolder {
 	private final String current;
 	// 是否加载所有语言
 //	private final boolean loadAllLangs;
+	// 语言文件所在基础路径
+	private final String basePackage;
 	
 	/** 只读取传入的语言。其它语言不读取。<br>
 	 * 当传入的语言不存在时，默认查找 nukkit.yml 中的语言配置 settings.language
@@ -61,7 +63,7 @@ public abstract class PluginLangHolder {
 		this.type = type;
 //		this.loadAllLangs = loadAll;
 		this.current = lang;
-		
+		this.basePackage = basePackage;
 		
 		if(loadAll) {
 			File[] fs = new File(basePackage).listFiles();
@@ -93,10 +95,34 @@ public abstract class PluginLangHolder {
 		try {
 			Config c = new Config(f, type.getConfigCode());
 			this.langs.put(lang, c);
+			return c;
 		} catch (Exception e) {
 			log.error("load lang file ["+f.getAbsolutePath()+"] failed !", e);
 		}
 		return null;
+	}
+	
+	/** 设置语言类型, 加载并设置成功时，返回语言文件，错误时返回null*/
+	public Config setLang(String name) {
+		Config c = langs.get(name);
+		if(c == null) {
+			c = this.loadLang(name, new File(basePackage, name+type.getType()), type);
+		}
+		return c;
+	}
+
+	/** 刷新，并返回当前的语言配置对象*/
+	public Config refresh() {
+		langs.keySet().forEach( e -> {
+			Config lang = this.loadLang(e, new File(this.basePackage,  e+type.getType()), type);
+			if(lang == null) {
+				this.langs.remove(e);
+			} else {
+				this.langs.put(e, lang);
+			}
+		});
+		
+		return this.getCurrentConfig();
 	}
 	
 	/** 获取语言文件的文件类型*/
