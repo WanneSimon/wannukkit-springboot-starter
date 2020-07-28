@@ -69,14 +69,27 @@ public abstract class PluginLangHolder {
 		this.current = lang;
 		this.basePackage = basePackage;
 		
+		this.checkSaveAndLoad( defaultLang, loadAll);
+	}
+	
+	/** 初始化的时候，检查保存内部语言文件，并加载语言*/
+	private void checkSaveAndLoad( String defaultLang, boolean loadAll) {
 		// TODO 检查并保存所有的语言文件
 //		File parent = new File(plugin.getDataFolder(), basePackage);
 //		if(parent == null) {
 //			plugin.saveResource(filename)
 //		}
+		
+		System.out.println("base package ");
+		System.out.println( plugin.getDataFolder().getAbsolutePath() + "/" + basePackage );
+		
+		File parent = new File(plugin.getDataFolder().getName(), basePackage);
+		if(!parent.exists() || !parent.isDirectory()) {
+			throw new RuntimeException("There's no language files, please check base package '"+basePackage+"'");
+		}
 //		
 		if(loadAll) {
-			File[] fs = new File(basePackage).listFiles();
+			File[] fs = parent.listFiles();
 			if(fs == null || fs.length == 0) {
 				throw new RuntimeException("There's no language files, please check base package '"+basePackage+"'");
 			}
@@ -91,14 +104,13 @@ public abstract class PluginLangHolder {
 				this.loadLang(lang_f, f, type);
 			}
 		} else {
-			File f = new File(basePackage, lang+type.getType());
+			File f = new File(parent, current+type.getType());
 			if(!f.exists()) {
 				throw new RuntimeException("There's no language file, please check it out '"+f.getAbsolutePath()+"'");
 			}
 			
-			this.loadLang(lang, f, type);
+			this.loadLang(current, f, type);
 		}
-		
 	}
 	
 	private Config loadLang(String lang, File f, ConfigFileType type) {
