@@ -135,6 +135,7 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 //		File projectLocation = PathResource.getProjectLocation();
 		File projectLocation = new File(System.getProperty("user.dir"));
 		String[] dirs = properties.getNukkitSpringPluginLocation().split("\\,");
+		log.info("[nsplugins] location: " + Arrays.toString(dirs));
 		
 //		URL[] uris = new URL[0];
 		List<URL> uriList = new ArrayList<>();
@@ -334,5 +335,15 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 		knownAliases.set(obj, new HashMap<>(value2));
 		knownAliases.setAccessible(access);
 	}
+	
+	public static void main(String[] args) {
+		String s = "nsplugins,target";
+		String[] arr = s.split("\\,");
+		System.out.println(Arrays.toString(s.split("\\,")));
+		for (String a : arr) {
+			System.out.println(a);
+		}
+	}
+	
 	
 }

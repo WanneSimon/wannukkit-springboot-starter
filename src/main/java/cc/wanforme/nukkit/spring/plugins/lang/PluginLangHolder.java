@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cc.wanforme.nukkit.spring.util.NukkitServerUtil;
+import cn.nukkit.plugin.Plugin;
 import cn.nukkit.utils.Config;
 
 /** 多语言容器<br>
@@ -19,6 +20,8 @@ import cn.nukkit.utils.Config;
  */
 public abstract class PluginLangHolder {
 	private static final Logger log = LoggerFactory.getLogger(PluginLangHolder.class);
+	// 语言容器所属 插件
+	private Plugin plugin;
 	
 	// 读取进来的语言，可能是所有的语言，也可能只有正在使用中的语言
 	private Map<String, Config> langs ;
@@ -37,8 +40,8 @@ public abstract class PluginLangHolder {
 	 * @param basePackage
 	 * @param lang 当前读取语言
 	 */
-	public PluginLangHolder(ConfigFileType type, String basePackage, String lang) {
-		this(type, basePackage, lang, 
+	public PluginLangHolder(Plugin plugin, ConfigFileType type, String basePackage, String lang) {
+		this(plugin, type, basePackage, lang, 
 				NukkitServerUtil.getServer().getConfig("settings.language"), false);
 	}
 	
@@ -48,8 +51,8 @@ public abstract class PluginLangHolder {
 	 * @param lang 当前读取语言
 	 * @param defaultLang 默认语言
 	 */
-	public PluginLangHolder(ConfigFileType type, String basePackage, String lang, String defaultLang) {
-		this(type, basePackage, lang, defaultLang, false);
+	public PluginLangHolder(Plugin plugin, ConfigFileType type, String basePackage, String lang, String defaultLang) {
+		this(plugin, type, basePackage, lang, defaultLang, false);
 	}
 	
 	/** 只读取传入的语言。其它语言不读取
@@ -59,12 +62,19 @@ public abstract class PluginLangHolder {
 	 * @param defaultLang 默认语言
 	 * @param loadAll 是否将所有语言文件读入进来
 	 */
-	public PluginLangHolder(ConfigFileType type, String basePackage, String lang, String defaultLang, boolean loadAll) {
+	public PluginLangHolder(Plugin plugin, ConfigFileType type, String basePackage, String lang, String defaultLang, boolean loadAll) {
+		this.plugin = plugin;
 		this.type = type;
 //		this.loadAllLangs = loadAll;
 		this.current = lang;
 		this.basePackage = basePackage;
 		
+		// TODO 检查并保存所有的语言文件
+//		File parent = new File(plugin.getDataFolder(), basePackage);
+//		if(parent == null) {
+//			plugin.saveResource(filename)
+//		}
+//		
 		if(loadAll) {
 			File[] fs = new File(basePackage).listFiles();
 			if(fs == null || fs.length == 0) {
