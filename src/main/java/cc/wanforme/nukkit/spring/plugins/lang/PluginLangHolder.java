@@ -7,14 +7,15 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cc.wanforme.nukkit.spring.util.NukkitServerUtil;
 import cn.nukkit.plugin.Plugin;
 import cn.nukkit.utils.Config;
 
 /** 多语言容器<br>
  * 规则：所有语言文件放在一个 basePackage 下，该文件夹只能放语言文件<br>
  * 每个中语言类型对应一个文件。如： 'en' -> 'en.yml' (如果语言文件类型是yml)
- * 创建实例后，每个语言文件对应一个Config。
+ * 创建实例后，每个语言文件对应一个Config。<br>
+ * 用法：<br>
+ * 首先新建一个此对象，然后在 {@link cn.nukkit.plugin.Plugin#onLoad()} 方法中，调用初始化方法 {@link #init(boolean)}
  * @author wanne
  * 2020年7月22日
  */
@@ -40,10 +41,10 @@ public abstract class PluginLangHolder {
 	 * @param basePackage
 	 * @param lang 当前读取语言
 	 */
-	public PluginLangHolder(Plugin plugin, ConfigFileType type, String basePackage, String lang) {
-		this(plugin, type, basePackage, lang, 
-				NukkitServerUtil.getServer().getConfig("settings.language"), false);
-	}
+//	public PluginLangHolder(Plugin plugin, ConfigFileType type, String basePackage, String lang) {
+//		this(plugin, type, basePackage, lang);
+////				NukkitServerUtil.getServer().getConfig("settings.language"), false);
+//	}
 	
 	/** 只读取传入的语言。其它语言不读取
 	 * @param type 语言类型 {@link cn.nukkit.utils.Config}
@@ -51,9 +52,9 @@ public abstract class PluginLangHolder {
 	 * @param lang 当前读取语言
 	 * @param defaultLang 默认语言
 	 */
-	public PluginLangHolder(Plugin plugin, ConfigFileType type, String basePackage, String lang, String defaultLang) {
-		this(plugin, type, basePackage, lang, defaultLang, false);
-	}
+//	public PluginLangHolder(Plugin plugin, ConfigFileType type, String basePackage, String lang) {
+//		this(plugin, type, basePackage, lang);
+//	}
 	
 	/** 只读取传入的语言。其它语言不读取
 	 * @param type 语言类型 {@link cn.nukkit.utils.Config}
@@ -62,18 +63,20 @@ public abstract class PluginLangHolder {
 	 * @param defaultLang 默认语言
 	 * @param loadAll 是否将所有语言文件读入进来
 	 */
-	public PluginLangHolder(Plugin plugin, ConfigFileType type, String basePackage, String lang, String defaultLang, boolean loadAll) {
+	public PluginLangHolder(Plugin plugin, ConfigFileType type, String basePackage, String lang) {
 		this.plugin = plugin;
 		this.type = type;
 //		this.loadAllLangs = loadAll;
 		this.current = lang;
 		this.basePackage = basePackage;
 		
-		this.checkSaveAndLoad( defaultLang, loadAll);
+//		this.checkSaveAndLoad(loadAll);
 	}
 	
-	/** 初始化的时候，检查保存内部语言文件，并加载语言*/
-	private void checkSaveAndLoad( String defaultLang, boolean loadAll) {
+	/** 初始化语言容器，检查保存内部语言文件，并加载语言*,
+	 * @param loadAll 是否预先加载所有的语言
+	 */
+	public void init(boolean loadAll) {
 		// TODO 检查并保存所有的语言文件
 //		File parent = new File(plugin.getDataFolder(), basePackage);
 //		if(parent == null) {
@@ -128,7 +131,7 @@ public abstract class PluginLangHolder {
 	public Config setLang(String name) {
 		Config c = langs.get(name);
 		if(c == null) {
-			c = this.loadLang(name, new File(basePackage, name+type.getType()), type);
+			c = this.loadLang(name, new File(plugin.getDataFolder().getName()+"/"+basePackage, name+type.getType()), type);
 		}
 		return c;
 	}
@@ -136,7 +139,7 @@ public abstract class PluginLangHolder {
 	/** 刷新，并返回当前的语言配置对象*/
 	public Config refresh() {
 		langs.keySet().forEach( e -> {
-			Config lang = this.loadLang(e, new File(this.basePackage,  e+type.getType()), type);
+			Config lang = this.loadLang(e, new File(plugin.getDataFolder().getName()+"/"+basePackage,  e+type.getType()), type);
 			if(lang == null) {
 				this.langs.remove(e);
 			} else {
