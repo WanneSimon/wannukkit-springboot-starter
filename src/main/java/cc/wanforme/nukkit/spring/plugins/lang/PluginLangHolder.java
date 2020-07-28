@@ -81,7 +81,7 @@ public abstract class PluginLangHolder {
 				this.loadLang(lang_f, f, type);
 			}
 		} else {
-			File f = new File(basePackage, lang);
+			File f = new File(basePackage, lang+type.getType());
 			if(!f.exists()) {
 				throw new RuntimeException("There's no language file, please check it out '"+f.getAbsolutePath()+"'");
 			}

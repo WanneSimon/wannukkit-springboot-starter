@@ -1,6 +1,7 @@
 package cc.wanforme.nukkit.spring.configuration.started;
 
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -84,7 +85,9 @@ public class NukkitStartHandler {
 			for (String innerFolder : properties.getSavingFilesBeforeNukkit()) {
 				try {
 					ResourceSaver.saveInnerFile(innerFolder, true);
-				} catch (IOException e) {
+				}catch (FileNotFoundException e) {
+					log.warn("resources-folder ["+innerFolder+"] not existed!");
+				}catch (IOException e) {
 					log.error("saving resources-folder error ["+innerFolder+"]", e);
 				}
 			}
