@@ -1,12 +1,15 @@
 package cc.wanforme.nukkit.spring.plugins.lang;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cc.wanforme.nukkit.spring.util.ResourceSaver;
 import cn.nukkit.plugin.Plugin;
 import cn.nukkit.utils.Config;
 
@@ -25,7 +28,7 @@ public abstract class PluginLangHolder {
 	private Plugin plugin;
 	
 	// 读取进来的语言，可能是所有的语言，也可能只有正在使用中的语言
-	private Map<String, Config> langs ;
+	private Map<String, Config> langs = new HashMap<>();
 	// 文件类型
 	private final ConfigFileType type;
 	// 当前使用的语言
@@ -35,26 +38,6 @@ public abstract class PluginLangHolder {
 	// 语言文件所在基础路径
 	private final String basePackage;
 	
-	/** 只读取传入的语言。其它语言不读取。<br>
-	 * 当传入的语言不存在时，默认查找 nukkit.yml 中的语言配置 settings.language
-	 * @param type 语言类型 {@link cn.nukkit.utils.Config}
-	 * @param basePackage
-	 * @param lang 当前读取语言
-	 */
-//	public PluginLangHolder(Plugin plugin, ConfigFileType type, String basePackage, String lang) {
-//		this(plugin, type, basePackage, lang);
-////				NukkitServerUtil.getServer().getConfig("settings.language"), false);
-//	}
-	
-	/** 只读取传入的语言。其它语言不读取
-	 * @param type 语言类型 {@link cn.nukkit.utils.Config}
-	 * @param basePackage
-	 * @param lang 当前读取语言
-	 * @param defaultLang 默认语言
-	 */
-//	public PluginLangHolder(Plugin plugin, ConfigFileType type, String basePackage, String lang) {
-//		this(plugin, type, basePackage, lang);
-//	}
 	
 	/** 只读取传入的语言。其它语言不读取
 	 * @param type 语言类型 {@link cn.nukkit.utils.Config}
@@ -75,26 +58,29 @@ public abstract class PluginLangHolder {
 	
 	/** 初始化语言容器，检查保存内部语言文件，并加载语言*,
 	 * @param loadAll 是否预先加载所有的语言
+	 * @throws IOException 
 	 */
 	public void init(boolean loadAll) {
 		// TODO 检查并保存所有的语言文件
-//		File parent = new File(plugin.getDataFolder(), basePackage);
-//		if(parent == null) {
-//			plugin.saveResource(filename)
-//		}
 		
-		System.out.println("base package ");
-		System.out.println( plugin.getDataFolder().getAbsolutePath() + "/" + basePackage );
+		// 拿到插件jar文件所在路径/G:/Minecraft/Nukkit/ns_test/nsplugins/CMLogin-1.0-SNAPSHOT.jar
+//		String file = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
+		try {
+			ResourceSaver.savePluginResources(plugin, basePackage);
+		} catch (IOException e) {
+			log.info("cound not save nsplugin's languages folder!" , e);
+			throw new RuntimeException();
+		}
 		
-		File parent = new File(plugin.getDataFolder().getName(), basePackage);
+		File parent = new File(plugin.getDataFolder(), basePackage);
 		if(!parent.exists() || !parent.isDirectory()) {
-			throw new RuntimeException("There's no language files, please check base package '"+basePackage+"'");
+			throw new RuntimeException("There's no language files, please check base package '"+parent.getAbsolutePath()+"'");
 		}
 //		
 		if(loadAll) {
 			File[] fs = parent.listFiles();
 			if(fs == null || fs.length == 0) {
-				throw new RuntimeException("There's no language files, please check base package '"+basePackage+"'");
+				throw new RuntimeException("There's no language files, please check base package '"+parent.getAbsolutePath()+"'");
 			}
 			
 			for (File f : fs) {
