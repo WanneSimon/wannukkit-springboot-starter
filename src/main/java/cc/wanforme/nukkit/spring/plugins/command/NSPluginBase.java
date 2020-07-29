@@ -1,6 +1,7 @@
 package cc.wanforme.nukkit.spring.plugins.command;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cn.nukkit.command.Command;
@@ -43,9 +44,19 @@ public abstract class NSPluginBase extends PluginBase {
 	}
 	
 	/** 添加一个主指令处理器，并调用 initCommand 进行初始化*/
-	public void putMultiCommandHandler(String main, NSCommand mutilCommandHandler) {
+	@SuppressWarnings("unchecked")
+	public void registerNSCommand(String main, NSCommand mutilCommandHandler) {
 		mutilCommandHandler.initCommand();
 		mainCommands.put(main, mutilCommandHandler);
+
+		// 添加别名
+		Map<String, Object> command = (Map<String, Object>) (this.getDescription().getCommands().get(main));
+		if(command.get("aliases") != null) {
+			List<String> alias = (List<String>) command.get("aliases");
+			for (String a : alias) {
+				mainCommands.put(a, mutilCommandHandler);
+			}
+		}
 	}
 	
 }
