@@ -68,7 +68,7 @@ public abstract class PluginLangHolder {
 		try {
 			ResourceSaver.savePluginResources(plugin, basePackage);
 		} catch (IOException e) {
-			log.info("cound not save nsplugin's languages folder!" , e);
+			log.info("cound not save nsplugin ["+plugin.getName()+"] languages folder!" , e);
 			throw new RuntimeException();
 		}
 		
