@@ -95,7 +95,7 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 			List<Plugin> plugins = this.loadPlugins(fs);
 			
 			// 启用插件
-			this.enablePlugins(plugins);;
+			this.enablePlugins(plugins);
 		} else {
 			log.warn("There's no plugin, or error occured while loading plugins!");
 		}
@@ -344,6 +344,5 @@ public class NukkitApplicationContextHolder implements ApplicationContextAware{
 			System.out.println(a);
 		}
 	}
-	
 	
 }

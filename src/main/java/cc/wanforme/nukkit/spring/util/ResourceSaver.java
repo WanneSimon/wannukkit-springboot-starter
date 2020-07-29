@@ -102,4 +102,9 @@ public class ResourceSaver {
 		}
 	}
 	
+	/** 保存插件的内部资源*/
+	public static void saveNukkitPluginResources() {
+		
+	}
+	
 }
