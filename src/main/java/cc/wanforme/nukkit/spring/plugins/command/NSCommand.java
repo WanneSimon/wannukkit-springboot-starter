@@ -12,7 +12,7 @@ import cn.nukkit.command.CommandSender;
  * @author wanne
  * 2020年7月22日
  */
-public class NSCommand {
+public abstract class NSCommand {
 
 	/** 主指令*/
 	private String main;
@@ -22,6 +22,9 @@ public class NSCommand {
 	public NSCommand(String main) {
 		this.main = main;
 	}
+	
+	/** 指令初始化，当被添加到 NSPluginBase 的指令集中时调用*/
+	protected abstract void initCommand();
 	
 	/** 只处理完全相等的指令，有任何差异都返回处理失败<br>
 	 * 你的指令设计非常重要！！！指令尽量不要复用！！！<br>

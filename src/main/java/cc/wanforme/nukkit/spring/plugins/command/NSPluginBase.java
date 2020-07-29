@@ -42,8 +42,9 @@ public abstract class NSPluginBase extends PluginBase {
 		return false;
 	}
 	
-	/** 添加一个主指令处理器*/
+	/** 添加一个主指令处理器，并调用 initCommand 进行初始化*/
 	public void putMultiCommandHandler(String main, NSCommand mutilCommandHandler) {
+		mutilCommandHandler.initCommand();
 		mainCommands.put(main, mutilCommandHandler);
 	}
 	
