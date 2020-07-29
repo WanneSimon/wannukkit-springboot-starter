@@ -12,14 +12,14 @@ import cn.nukkit.command.CommandSender;
  * @author wanne
  * 2020年7月22日
  */
-public class MultiCommandHandler {
+public class NSCommand {
 
 	/** 主指令*/
 	private String main;
 	/** 固定长度参数的指令处理器*/ 
 	private Set<FixedArgumentsHandler> fixedArgsHandlers = new TreeSet<>(); // 升序
 	
-	public MultiCommandHandler(String main) {
+	public NSCommand(String main) {
 		this.main = main;
 	}
 	
