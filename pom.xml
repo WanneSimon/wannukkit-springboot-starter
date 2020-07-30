@@ -15,7 +15,7 @@
 	<packaging>jar</packaging>
 
 
-	<name>wannukkit-springboot-starter</name>
+	<name>wannukkit-spring-boot-starter</name>
 	<url>http://maven.apache.org</url>
 
 	<repositories>
