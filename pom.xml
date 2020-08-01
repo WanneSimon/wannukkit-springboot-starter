@@ -37,7 +37,7 @@
 		<repository>
 			<id>nukkitx-repo</id>
 			<!-- <url>https://repo.nukkitx.com/snapshot/</url> -->
-			<url>http://www.repo.wanforme.cc/repository/nukkit/</url>
+			<url>http://www.repo.wanforme.cc/repository/nukkitx-snapshot/</url>
 		</repository>
 	</repositories>
 
