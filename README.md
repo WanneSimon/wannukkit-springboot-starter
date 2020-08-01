@@ -41,3 +41,28 @@ stater内部已经内置了 PMPlus（现在还有个问题没有修复），程�
 ### 其它
 
 关于 nukkit 启动检测，使用的方法是依次检测 Server 实例和 PluginManager 实例。可以设置超时时间，不支持一直检测。
+
+
+
+### 仓库地址
+
+在 pom 中添加
+
+	<repositories>
+		<repository>
+			<id>nukkitx-repo</id>
+			<!-- <url>https://repo.nukkitx.com/snapshot/</url> -->
+			<url>http://www.repo.wanforme.cc/repository/nukkit/</url>
+		</repository>
+	</repositories>
+或者，
+
+你也可以 wannukkit-stpringboot 来搭建项目了，项目搭建更简单。添加父项目，需要使用上面的仓库地址。
+
+详细参考 [StarterDemo](https://github.com/WanneSimon/StarterDemo)（已更新）。
+
+	<parent>
+	  <groupId>cc.wanforme.nukkit</groupId>
+	  <artifactId>wannnukkit-springboot</artifactId>
+	  <version>1.0.0</version>
+	</parent>
