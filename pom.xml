@@ -45,7 +45,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- <log4j-to-slf4j.version>2.11.1</log4j-to-slf4j.version>  -->
 		<!-- <nukkit.version>1.0-SNAPSHOT</nukkit.version> -->
-		<nukkit.version>2.0.0-SNAPSHOT</nukkit.version>
+		<!-- <nukkit.version>2.0.0-SNAPSHOT</nukkit.version> -->
+		<cloudburst-server.version>1.0.0-SNAPSHOT</cloudburst-server.version>
 	</properties>
 
 	<dependencies>
@@ -107,22 +108,21 @@
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
 		 -->
-
+        <!-- 
 		<dependency>
 			<groupId>cn.nukkit</groupId>
 			<artifactId>nukkit</artifactId>
 			<version>${nukkit.version}</version>
-			<!-- <optional>true</optional> -->
-			<!-- nukkit 自带了编译后的gson,没办法移除，只能去掉spring中的gson，可能引起兼容问题 -->
-			<!-- 
-			<exclusions>
-				<exclusion>
-					<groupId>com.google.code.gson</groupId>
-					<artifactId>gson</artifactId>
-				</exclusion>
-			</exclusions>
-			-->
 		</dependency>
+		 -->
+		 
+		<!-- 替换 cloudburst -->
+		<dependency>
+			<groupId>org.cloudburstmc</groupId>
+			<artifactId>cloudburst-server</artifactId>
+			<version>${cloudburst-server.version}</version>
+		</dependency>
+		
 	</dependencies>
 
 </project>
